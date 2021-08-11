@@ -2,13 +2,13 @@ const Role = require("../models/role")
 
 const registerRole = async(req, res) =>{
 
-    if(!req.bodyname.name || !req.body.description)
+    if(!req.body.name || !req.body.description)
     return res.status(401).send("Process failed: Incomplete data, please make sure to issue a name and a description")
 
     const existingRole = await Role.findOne({name: req.body.name});//searches for a role with the same name
     if(existingRole) return res.status(401).send("Process failed: Role already exists");
 
-    const role = new Role({ //this assigns a 
+    const role = new Role({ 
 
         name: req.body.name,
         description: req.body.description,
@@ -16,7 +16,7 @@ const registerRole = async(req, res) =>{
 
     });
 
-    const result = await Role.save();
+    const result = await role.save();
     if(!result) return res.status(401).send("Failed to register");//this is just a confirmation, if something goes wrong then this is displayed
     return res.status(200).send({ role });
 

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const boardSchema = new mongoose.Schema({ // this is the structure that every Role object will have
+const roleSchema = new mongoose.Schema({ // this is the structure that every Role object will have
 
     name: String,
     description: String,
@@ -9,6 +9,6 @@ const boardSchema = new mongoose.Schema({ // this is the structure that every Ro
     date: {type: Date, default: Date.now},
     
 });
-const board = mongoose.model("board", boardSchema);
+const role = mongoose.model("role", roleSchema);
 
-module.exports = board;
+module.exports = role;
