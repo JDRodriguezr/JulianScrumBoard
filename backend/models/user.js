@@ -1,27 +1,31 @@
+
 const mongoose = require("mongoose");
-const moment = require("moment");
+
 const jwt = require("jsonwebtoken");
 
+
+const moment = require("moment");
+
 const userSchema = new mongoose.Schema({
+  name: String,
+  email: String,
+  password: String,
 
-    name: String,
-    email: String,
-    password: String,
-    roleId: {type: mongoose.Schema.ObjectId, ref: "role"},
-    date:{type: Date, default:Date.now},
-    dbStatus: Boolean,
-
+  roleId: { type: mongoose.Schema.ObjectId, ref: "role" },
+  date: { type: Date, default: Date.now },
+  dbStatus: Boolean,
 });
-userSchema.methods.generateJWT=function(){
 
-    return jwt.sign({
+userSchema.methods.generateJWT = function () {
 
-        _id: this._id,
-        name: this.name,
-        iat: moment().unix(),
+  return jwt.sign(
+    {
+      _id: this._id, 
+      name: this.name,
+      iat: moment().unix(),
     },
     process.env.SECRET_KEY_JWT
-    );
+  );
 };
 
 const user = mongoose.model("user", userSchema);

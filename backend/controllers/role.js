@@ -1,32 +1,35 @@
-const Role = require("../models/role")
 
-const registerRole = async(req, res) =>{
+const Role = require("../models/role");
 
-    if(!req.body.name || !req.body.description)
-    return res.status(401).send("Process failed: Incomplete data, please make sure to issue a name and a description")
+const registerRole = async (req,res) => {
 
-    const existingRole = await Role.findOne({name: req.body.name});//searches for a role with the same name
-    if(existingRole) return res.status(401).send("Process failed: Role already exists");
+    if(!req.body.name||!req.body.description) return res.status(401).send("Process failed: Incomplete data");
 
-    const role = new Role({ 
 
-        name: req.body.name,
-        description: req.body.description,
-        dbStatus: true,
+    const existingRole = await Role.findOne({name: req.body.name});
 
-    });
+    if(existingRole) return res.status(401).send("Process failed : Role already exist");
 
+    const role = new Role({
+        name:req.body.name,
+        description:req.body.description,
+        dbStatus:true,
+    })
     const result = await role.save();
-    if(!result) return res.status(401).send("Failed to register");//this is just a confirmation, if something goes wrong then this is displayed
-    return res.status(200).send({ role });
 
-};
+    if(!result) return res.status(401).send("Process failed: Role registration has failed");
 
-const listRole = async(req, res) =>{
-
-    const role = await Role.find();
-    if(!role) return res.status(401).send("No role");
     return res.status(200).send({role});
 };
 
-module.exports = {registerRole, listRole};//functions avaiable when this file is invoked
+
+const listRole = async (req,res) => {
+
+    const role = await Role.find()
+ 
+    if(!role || role.length  === 0) return res.status(401).send("No role");
+
+    return res.status(200).send({role});
+};
+
+module.exports = {registerRole, listRole};
