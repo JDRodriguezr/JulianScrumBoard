@@ -1,27 +1,19 @@
-
-
-const jwt = require('jsonwebtoken');
-
+const jwt = require("jsonwebtoken");
 
 const auth = async (req, res, next) => {
+  let jwtToken = req.header("Authorization");
+  if (!jwtToken) return res.status(400).send("Authorization denied: No token");
 
-    let jwtToken = req.header("Authorization");
+  jwtToken = jwtToken.split(" ")[1];
+  if (!jwtToken) return res.status(400).send("Authorization denied: No token");
 
-
-    if(!jwtToken) return res.status(400).send("Authorization denied: No token");
-
-    jwtToken.split(" ")[1];
-
-    try {
-
-        const payload = await jwt.verify(jwtToken,process.env.SECRET_KEY_JWT);
-
-        req.user = payload;
-
-        next();
-    } catch (error) {
-        return res.status(400).send("Authorization denied: Invalid token");
-    }
-}
+  try {
+    let payload = await jwt.verify(jwtToken, process.env.SECRET_KEY_JWT);
+    req.user = payload;
+    next();
+  } catch (e) {
+    return res.status(400).send("Authorization denied: Invalid token");
+  }
+};
 
 module.exports = auth;

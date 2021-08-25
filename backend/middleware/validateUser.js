@@ -1,15 +1,14 @@
+const User = require("../models/user");
+const mongoose = require("mongoose");
 
+const user = async (req, res, next) => {
+  let validId = mongoose.Types.ObjectId.isValid(req.user._id);
+  if (!validId) return res.status(400).send("Invalid id");
 
-const User = require('../models/user');
+  let user = await User.findById(req.user._id);
 
+  if (!user) return res.status(400).send("User without permission");
+  next();
+};
 
-
-const user = async (req,res,next) => {
-    const user = await User.findById(req.user._id);
-
-    if(!user) return res.status(400).send("Authorization denied : User not found");
-
-    next();
-}
-
-module.exports = user
+module.exports = user;
