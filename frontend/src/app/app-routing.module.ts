@@ -11,21 +11,24 @@ import { LoginComponent } from './home/login/login.component';
 import { RegisterComponent } from './home/register/register.component';
 
 
+import {AuthGuard} from "./guard/auth.guard";
 
 const routes: Routes = [
   {
-    path: '', //Ruta inicial de la pagina 
-    component: LoginComponent, //Carga de X componente
-    pathMatch: 'full', //Debe estar 10/10
+    path: '', //La ruta inicial de la pagina 
+    component: LoginComponent, 
+    pathMatch: 'full', //debe escribir completa la url
   },
   {
     path: 'listTask',
     component: ListTaskComponent,
+    canActivate:[AuthGuard],
     pathMatch: 'full',
   },
   {
     path: 'saveTask',
     component: SaveTaskComponent,
+    canActivate:[AuthGuard],
     pathMatch: 'full',
   },
   {
@@ -34,38 +37,44 @@ const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: 'signUp',
+    path: 'SingUp',
     component: RegisterComponent,
     pathMatch: 'full',
   },
   {
     path: 'listUser',
     component: ListUserComponent,
+    canActivate:[AuthGuard],
     pathMatch: 'full',
   },
   {
     path: 'registerUser',
     component: RegisterComponent,
+    canActivate:[AuthGuard],
     pathMatch: 'full',
   },
   {
     path: 'updateUser',
     component: UpdateUserComponent,
+    canActivate:[AuthGuard],
     pathMatch: 'full',
   },
   {
     path: 'registerRole',
     component: RegisterRoleComponent,
+    canActivate:[AuthGuard],
     pathMatch: 'full',
   },
   {
     path: 'listRole',
     component: ListRoleComponent,
+    canActivate:[AuthGuard],
     pathMatch: 'full',
   },
   {
     path: 'updateRole',
     component: UpdateRoleComponent,
+    canActivate:[AuthGuard],
     pathMatch: 'full',
   },
 ];

@@ -25,14 +25,23 @@ import { TokenInterceptorService } from './services/token-interceptor.service';
 //guards
 import { AuthGuard } from './guard/auth.guard';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatButtonModule } from '@angular/material/button'; 
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatCardModule } from '@angular/material/card';
-import { MatInputModule } from '@angular/material/input';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+
+//imports material
+import {MatToolbarModule} from '@angular/material/toolbar'; 
+import {MatButtonModule} from '@angular/material/button'; 
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatCardModule} from '@angular/material/card'; 
+import {MatInputModule} from '@angular/material/input';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+
+//acordeon
+import {MatExpansionModule} from '@angular/material/expansion';
+
+
+import {MatIconModule} from '@angular/material/icon'; 
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule , HTTP_INTERCEPTORS} from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
@@ -49,14 +58,35 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     RegisterRoleComponent,
     ListRoleComponent,
     UpdateRoleComponent,
+    
   ],
-  imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule, FormsModule, ReactiveFormsModule, HttpClientModule, MatToolbarModule, MatButtonModule, MatFormFieldModule, MatCardModule, MatInputModule, MatSnackBarModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatCardModule,
+    MatInputModule,
+    MatSnackBarModule,
+    MatExpansionModule,
+    MatIconModule
+
+  ],
   providers: [
     UserService,
     RoleService,
     BoardService,
-    TokenInterceptorService,
     AuthGuard,
+    {
+      provide:HTTP_INTERCEPTORS,
+      useClass:TokenInterceptorService,
+      multi:true 
+    }
   ],
   bootstrap: [AppComponent],
 })
